@@ -1,0 +1,10 @@
+.footer.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+     /* Esto establece el alto del contenedor al 100% del alto del viewport */
+    height: 150px;
+  }
+  
+
+  
