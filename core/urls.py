@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import inicio, poblar_bd, Usuario, iniciosesion
+from .views import inicio, poblar_bd, Usuario, iniciosesion, registro
 from . import views
 from django.contrib import admin
 
@@ -11,4 +11,6 @@ urlpatterns = [
     path('iniciosesion', views.iniciosesion, name="iniciosesion" ),
     path('Usuario/<action>/<id>', Usuario, name="Usuario"),
     path('admin',admin.site.urls),
+        path('', registro, name="registro"),
+    path('registro', views.registro, name="registro" ),
 ]

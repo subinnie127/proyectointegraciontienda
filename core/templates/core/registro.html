@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+<form class="row g-3 needs-validation" novalidate>
+    <div class="col-md-4 position-relative">
+      <label for="validationTooltip01" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="validationTooltip01" >
+    </div>
+    <div class="col-md-4 position-relative">
+      <label for="validationTooltip02" class="form-label"> Apellidos</label>
+      <input type="text" class="form-control" id="validationTooltip02">
+    </div>
+    <div class="col-md-4 position-relative">
+      <label for="validationTooltipUsername" class="form-label">Correo</label>
+      <div class="input-group has-validation">
+        <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
+        <input type="text" class="form-control" id="validationTooltipUsername">
+      </div>
+    </div>
+    <div class="col-md-6 position-relative">
+      <label for="validationTooltip03" class="form-label">Direccion</label>
+      <input type="text" class="form-control">
+    </div>
+    <div class="col-md-6 position-relative">
+        <label for="validationTooltip03" class="form-label">Contraseña</label>
+        <input type="text" class="form-control">
+      </div>
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Registrarse</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

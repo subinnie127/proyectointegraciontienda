@@ -6,6 +6,8 @@ def inicio (request):
      return render (request, "core/inicio.html")
 def iniciosesion (request):
      return render(request, "core/iniciosesion.html")
+def registro (request):
+     return render(request, "core/registro.html")
 
 def Usuario(request, action, id):
     data = {"mesg": "", "form": UsuarioForm, "action": action, "id": id}
