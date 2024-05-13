@@ -1,13 +1,14 @@
 from django.urls import path
-from .views import inicio, login, poblar_bd, Usuario
+from .views import inicio, poblar_bd, Usuario, iniciosesion
 from . import views
-
+from django.contrib import admin
 
 urlpatterns = [
     path('', inicio, name="inicio"),
     path('poblar_bd', poblar_bd, name="poblar_bd"),
     path('inicio/', views.inicio, name="inicio"),
-    path('', login, name="login"),
-    path('login/', views.login, name="login" ),
-     path('Usuario/<action>/<id>', Usuario, name="Usuario"),
+    path('', iniciosesion, name="iniciosesion"),
+    path('iniciosesion', views.iniciosesion, name="iniciosesion" ),
+    path('Usuario/<action>/<id>', Usuario, name="Usuario"),
+    path('admin',admin.site.urls),
 ]

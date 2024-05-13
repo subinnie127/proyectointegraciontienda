@@ -4,8 +4,8 @@ from .models import Usuario
 
 def inicio (request):
      return render (request, "core/inicio.html")
-def login (request):
-     return render(request, "core/login.html")
+def iniciosesion (request):
+     return render(request, "core/iniciosesion.html")
 
 def Usuario(request, action, id):
     data = {"mesg": "", "form": UsuarioForm, "action": action, "id": id}

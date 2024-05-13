@@ -1,4 +1,6 @@
-
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 <div class="dropdown-menu">
   <form class="px-4 py-3" method="post">
       {% csrf_token %}
@@ -31,7 +33,7 @@
       <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
   </form>
   <div class="dropdown-divider"></div>
-  <a class="dropdown-item" href="{% url 'Inciosesion' %}">¿Ya tienes cuenta?</a>
-  <a class="dropdown-item" href="{% url 'Recuperarcontrasena' %}">¿Olvidaste contraseña?</a>
+  <a class="dropdown-item" href="{% url 'iniciosesion' %}">¿Ya tienes cuenta?</a>
+  <a class="dropdown-item" href="">¿Olvidaste contraseña?</a>
 </div>
-
+{% endblock %}

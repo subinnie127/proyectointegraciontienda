@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.hashers import make_password
 
 
+
 class Usuario(AbstractUser):
     email =  models.EmailField(unique=True, primary_key=True)
     nombre = models.CharField( max_length=80, blank=False, null=False, verbose_name="nombre")
