@@ -2,30 +2,42 @@
 {% load static %}
 {% block content %}
 <div class="container mt-5">
-<form class="row g-3 needs-validation" novalidate>
+  {% if messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endif %}
+  <form class="row g-3 needs-validation" novalidate action="{% url 'registro' %}" method="post">
+    {% csrf_token %}
     <div class="col-md-4 position-relative">
-      <label for="validationTooltip01" class="form-label">Nombre</label>
-      <input type="text" class="form-control" id="validationTooltip01" >
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="nombre" name="nombre" required>
     </div>
     <div class="col-md-4 position-relative">
-      <label for="validationTooltip02" class="form-label"> Apellidos</label>
-      <input type="text" class="form-control" id="validationTooltip02">
+      <label for="apellidos" class="form-label">Apellidos</label>
+      <input type="text" class="form-control" id="apellido" name="apellido" required>
     </div>
     <div class="col-md-4 position-relative">
-      <label for="validationTooltipUsername" class="form-label">Correo</label>
-      <div class="input-group has-validation">
-        <span class="input-group-text" id="validationTooltipUsernamePrepend">@</span>
-        <input type="text" class="form-control" id="validationTooltipUsername">
-      </div>
+      <label for="correo" class="form-label">Correo</label>
+      <input type="email" class="form-control" id="email" name="email" required>
     </div>
     <div class="col-md-6 position-relative">
-      <label for="validationTooltip03" class="form-label">Direccion</label>
-      <input type="text" class="form-control">
+      <label for="direccion" class="form-label">Dirección</label>
+      <input type="text" class="form-control" id="direccion" name="direccion" required>
     </div>
     <div class="col-md-6 position-relative">
-        <label for="validationTooltip03" class="form-label">Contraseña</label>
-        <input type="text" class="form-control">
-      </div>
+      <label for="contraseña" class="form-label">Contraseña</label>
+      <input type="password" class="form-control" id="contraseña" name="contraseña" required>
+    </div>
+    <div class="col-md-6 position-relative">
+      <label for="tipo_de_usuario" class="form-label">Tipo de Usuario</label>
+      <select class="form-select" id="tipo_de_usuario" name="tipo_de_usuario" required>
+        <option value="Cliente">Cliente</option>
+      </select>
+    </div>
     <div class="col-12">
       <button class="btn btn-primary" type="submit">Registrarse</button>
     </div>

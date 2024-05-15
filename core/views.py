@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
-from .forms import UsuarioForm
+from .forms import UsuarioForm, ClienteRegistroForm
+from django.views.generic import CreateView
 from .models import Usuario
+from django.urls import reverse_lazy
+from django.contrib import messages
+
 
 def inicio (request):
      return render (request, "core/inicio.html")
@@ -46,3 +50,29 @@ def Usuario(request, action, id):
 def poblar_bd(request):
    
     return redirect(Usuario, action='ins', id = '-1')
+
+class ClienteRegistroView(CreateView):
+    form_class = ClienteRegistroForm
+    template_name = 'core/registro.html'
+    success_url = reverse_lazy('iniciosesion')
+
+    def form_valid(self, form):
+        # Acceder al tipo de usuario del formulario
+        tipo_de_usuario = form.instance.tipo_de_usuario
+        # Validar que el tipo de usuario sea "Cliente"
+        if tipo_de_usuario != 'Cliente':
+            # Agregar mensaje de error al campo tipo_de_usuario
+            form.add_error('tipo_de_usuario', 'Solo se permite el registro de clientes.')
+            # Retornar formulario inválido
+            return self.form_invalid(form)
+        
+        # Si el tipo de usuario es "Cliente", guardar el formulario y el usuario
+        self.object = form.save()
+
+        # Agregar mensaje de éxito
+        messages.success(self.request, 'Usuario registrado exitosamente.')
+
+        # Mensaje de depuración para verificar que el usuario se ha guardado
+        print("Usuario guardado correctamente:", self.object)
+
+        return super().form_valid(form)
