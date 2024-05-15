@@ -4,7 +4,8 @@ from django.views.generic import CreateView
 from .models import Usuario
 from django.urls import reverse_lazy
 from django.contrib import messages
-
+from django.contrib.auth import authenticate, login
+from django.views import View
 
 def inicio (request):
      return render (request, "core/inicio.html")
@@ -76,3 +77,22 @@ class ClienteRegistroView(CreateView):
         print("Usuario guardado correctamente:", self.object)
 
         return super().form_valid(form)
+    
+class IniciarSesionView(View):
+    template_name = 'core/iniciosesion.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            # Redirigir al usuario a la página deseada después de iniciar sesión
+            return redirect('inicio')
+        else:
+            # Mostrar un mensaje de error de inicio de sesión
+            error_message = 'Credenciales incorrectas. Inténtalo de nuevo.'
+            return render(request, self.template_name, {'error': error_message})

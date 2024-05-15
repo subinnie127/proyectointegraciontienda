@@ -1,6 +1,6 @@
 from django.urls import path
 from django.views.generic import CreateView
-from .views import inicio, poblar_bd, Usuario, iniciosesion, registro,  ClienteRegistroView
+from .views import inicio, poblar_bd, Usuario, iniciosesion, registro,  ClienteRegistroView, IniciarSesionView
 from . import views
 from django.contrib import admin
 
@@ -9,7 +9,7 @@ urlpatterns = [
     path('poblar_bd', poblar_bd, name="poblar_bd"),
     path('inicio/', views.inicio, name="inicio"),
     path('', iniciosesion, name="iniciosesion"),
-    path('iniciosesion', views.iniciosesion, name="iniciosesion" ),
+    path('iniciosesion', IniciarSesionView.as_view(), name="iniciosesion" ),
     path('Usuario/<action>/<id>', Usuario, name="Usuario"),
     path('admin',admin.site.urls),
         path('', registro, name="registro"),

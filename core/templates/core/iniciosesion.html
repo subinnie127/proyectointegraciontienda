@@ -2,21 +2,19 @@
 {% load static %}
 {% block content %}
 <div class="container mt-5">
-<form>
+  <form method="post" action="{% url 'inicio' %}">
+    {% csrf_token %}
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Correo</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" required>
       <div id="emailHelp" class="form-text">ejemplo@gmail.com</div>
     </div>
     <div class="mb-3">
       <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-      <input type="password" class="form-control" id="exampleInputPassword1">
+      <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
     </div>
-    <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">Recuerdame</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Iniciar Seión</button>
+    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
   </form>
 </div>
 {% endblock %}
+
