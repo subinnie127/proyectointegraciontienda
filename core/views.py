@@ -86,9 +86,9 @@ class IniciarSesionView(View):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            # Redirigir al usuario a la página deseada después de iniciar sesión
+            messages.success(request, 'Haz iniciado sesión')
             return redirect('inicio')
         else:
             # Mostrar un mensaje de error de inicio de sesión
-            error_message = 'Credenciales incorrectas. Inténtalo de nuevo.'
-            return render(request, self.template_name, {'error': error_message})
+            messages.error(request, 'Credenciales incorrectas. Inténtalo de nuevo.')
+            return render(request, self.template_name)
