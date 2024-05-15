@@ -1,12 +1,11 @@
 from django.urls import path
 from django.views.generic import CreateView
-from .views import inicio, poblar_bd, Usuario, iniciosesion, registro,  ClienteRegistroView, IniciarSesionView
+from .views import inicio, Usuario, iniciosesion, registro,  ClienteRegistroView, IniciarSesionView
 from . import views
 from django.contrib import admin
 
 urlpatterns = [
     path('', inicio, name="inicio"),
-    path('poblar_bd', poblar_bd, name="poblar_bd"),
     path('inicio/', views.inicio, name="inicio"),
     path('', iniciosesion, name="iniciosesion"),
     path('iniciosesion', IniciarSesionView.as_view(), name="iniciosesion" ),

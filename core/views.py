@@ -48,14 +48,10 @@ def Usuario(request, action, id):
     return render(request, "core/admin.html", data)
 
 
-def poblar_bd(request):
-   
-    return redirect(Usuario, action='ins', id = '-1')
-
 class ClienteRegistroView(CreateView):
     form_class = ClienteRegistroForm
     template_name = 'core/registro.html'
-    success_url = reverse_lazy('iniciosesion')
+    success_url = reverse_lazy('inicio')
 
     def form_valid(self, form):
         # Acceder al tipo de usuario del formulario
