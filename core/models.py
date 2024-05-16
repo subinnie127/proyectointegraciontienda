@@ -1,35 +1,27 @@
-from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.db import models
-from django.contrib.auth.hashers import make_password
 
-class Usuario(AbstractUser):
-    email = models.EmailField(unique=True, primary_key=True)
-    nombre = models.CharField(max_length=80, blank=False, null=False, verbose_name="nombre")
-    apellido = models.CharField(max_length=80, blank=False, null=False, verbose_name="nombre")
-    direccion = models.CharField(max_length=255, blank=True, null=True, verbose_name="dirección")
-    
-    TIPO_DE_USUARIO = (
-        ('Cliente', 'Cliente'),
-        ('Bodeguero', 'Bodeguero'),
-        ('Cajero', 'Cajero'),
-    )
-    tipo_de_usuario = models.CharField(
-        max_length=40,
-        blank=False, null=False,
-        verbose_name="tipo de usuario",
-        choices=TIPO_DE_USUARIO
-    )
-    groups = models.ManyToManyField(Group, related_name='usuarios')
-    user_permissions = models.ManyToManyField(Permission, related_name='usuarios_permissions')
 
-    def save(self, *args, **kwargs):
-        # Utiliza el campo email como username
-        self.username = self.email
+class ClienteManager(BaseUserManager):
+    def create_user(self, email, nombre, apellido, direccion, password=None):
+        if not email:
+            raise ValueError('El correo electrónico debe ser proporcionado')
+        email = self.normalize_email(email)
+        user = self.model(email=email, nombre=nombre, apellido=apellido, direccion=direccion)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+class Cliente(AbstractBaseUser):
+    email = models.EmailField(primary_key=True, unique=True)
+    nombre = models.CharField(max_length=30)
+    apellido = models.CharField(max_length=30)
+    direccion = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
 
-        # Hashea y guarda la contraseña de manera segura
-        self.password = make_password(self.password)
-
-        super().save(*args, **kwargs)
+    objects = ClienteManager()
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['nombre', 'apellido', 'direccion']
 
     def __str__(self):
         return self.email

@@ -1,5 +1,5 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg bg-body-tertiary" class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark border-bottom border-body" data-bs-theme="dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">KIRBYSTORE</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,12 +10,18 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'inicio' %}">INICIO</a>
         </li>
+        {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'iniciosesion' %}">Inicia sesion</a>
+          <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'iniciosesion' %}">Inicia Sesión</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'registro' %}">Registrate</a>
+          <a class="nav-link" href="{% url 'registro' %}">Regístrate</a>
         </li>
+        {% endif %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               MENU
@@ -26,10 +32,6 @@
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">NIÑO</a></li>
           </ul>
-      </li>
-      
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">BIENVENIDO/A</a>
         </li>
       </ul>
       <form class="d-flex" role="search">
