@@ -1,7 +1,33 @@
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.core.exceptions import ValidationError
 from django.db import models
+import re
 
+def validar_rut(value):
+    rut_regex = re.compile(r'^\d{1,8}-[0-9Kk]$')
+    if not rut_regex.match(value):
+        raise ValidationError('El RUT debe tener el formato XXXXXXXX-X')
 
+    # Validar dígito verificador
+    rut, dv = value.split('-')
+    rut = int(rut)
+    suma = 0
+    factor = 2
+
+    for digit in reversed(str(rut)):
+        suma += int(digit) * factor
+        factor = 9 if factor == 7 else factor + 1
+
+    calculated_dv = 11 - (suma % 11)
+    if calculated_dv == 11:
+        calculated_dv = '0'
+    elif calculated_dv == 10:
+        calculated_dv = 'K'
+    else:
+        calculated_dv = str(calculated_dv)
+
+    if calculated_dv.upper() != dv.upper():
+        raise ValidationError('El dígito verificador del RUT no es válido')
 class ClienteManager(BaseUserManager):
     def create_user(self, email, nombre, apellido, direccion, password=None):
         if not email:
@@ -78,3 +104,20 @@ class ItemPedido(models.Model):
 
     def __str__(self):
         return f"{self.cantidad} x {self.prenda.nombre} - {self.pedido}"
+class Cargo(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.nombre
+
+class Empleado(models.Model):
+    nombre = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100)
+    rut = models.CharField(max_length=12, unique=True, validators=[validar_rut])
+    email = models.EmailField(unique=True)
+    telefono = models.CharField(max_length=20, blank=True, null=True)
+    cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.nombre} {self.apellido} - {self.cargo}"

@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import Cliente, Categoria, Marca, Prenda, Pedido, ItemPedido
-
+from .models import Cliente, Categoria, Marca, Prenda, Pedido, ItemPedido, Cargo, Empleado
 class ClienteAdmin(BaseUserAdmin):
     ordering = ['email']
     list_display = ['email', 'nombre', 'apellido', 'direccion']
@@ -17,12 +16,14 @@ class ClienteAdmin(BaseUserAdmin):
         }),
     )
     search_fields = ('email', 'nombre', 'apellido', 'direccion')
-    list_filter = ('is_active', 'is_staff')  # Elimina 'is_superuser' de los filtros
+    list_filter = ('is_active', 'is_staff') 
     filter_horizontal = ()
-    
+
 admin.site.register(Categoria)
 admin.site.register(Marca)
 admin.site.register(Prenda)
 admin.site.register(Pedido)
 admin.site.register(ItemPedido)
 admin.site.register(Cliente, ClienteAdmin)
+admin.site.register(Cargo)
+admin.site.register(Empleado)
