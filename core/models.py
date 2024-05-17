@@ -4,19 +4,22 @@ from django.db import models
 import re
 
 def validar_rut(value):
+    # Verifica que el RUT tenga el formato correcto
     rut_regex = re.compile(r'^\d{1,8}-[0-9Kk]$')
     if not rut_regex.match(value):
         raise ValidationError('El RUT debe tener el formato XXXXXXXX-X')
 
-    # Validar dígito verificador
+    # Separar el número del RUT y el dígito verificador
     rut, dv = value.split('-')
     rut = int(rut)
+
+    # Calcular el dígito verificador
     suma = 0
     factor = 2
 
     for digit in reversed(str(rut)):
         suma += int(digit) * factor
-        factor = 9 if factor == 7 else factor + 1
+        factor = factor + 1 if factor < 7 else 2
 
     calculated_dv = 11 - (suma % 11)
     if calculated_dv == 11:
@@ -28,6 +31,13 @@ def validar_rut(value):
 
     if calculated_dv.upper() != dv.upper():
         raise ValidationError('El dígito verificador del RUT no es válido')
+
+# Ejemplo de prueba
+try:
+    validar_rut('20883369-3')  # Reemplaza con tu RUT para probar
+    print("RUT válido")
+except ValidationError as e:
+    print(f"Error: {e}")
 class ClienteManager(BaseUserManager):
     def create_user(self, email, nombre, apellido, direccion, password=None):
         if not email:
