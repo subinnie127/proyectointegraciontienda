@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1>Lista de Empleados</h1>
+    <br>
+    <ul class="list-group">
+        {% for empleado in empleados %}
+        <li class="list-group-item">{{ empleado.rut }} - {{ empleado.nombre }} {{ empleado.apellido }}</li>
+        {% endfor %}
+    </ul>
+    <br>
+    <a href="{% url 'agregar_empleado' %}" class="btn btn-primary">Agregar Empleado</a>
+</div>
+{% endblock %}
