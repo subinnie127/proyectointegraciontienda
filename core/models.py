@@ -25,3 +25,56 @@ class Cliente(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+    
+class Categoria(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    descripcion = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.nombre
+
+class Marca(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    descripcion = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.nombre
+
+class Prenda(models.Model):
+    TALLAS = [
+        ('XS', 'Extra Pequeño'),
+        ('S', 'Pequeño'),
+        ('M', 'Mediano'),
+        ('L', 'Grande'),
+        ('XL', 'Extra Grande'),
+    ]
+
+    nombre = models.CharField(max_length=100)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    marca = models.ForeignKey(Marca, on_delete=models.CASCADE, blank=True, null=True)
+    descripcion = models.TextField(blank=True, null=True)
+    talla = models.CharField(max_length=2, choices=TALLAS)
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    stock = models.PositiveIntegerField()
+    disponible = models.BooleanField(default=True)
+    imagen = models.ImageField(upload_to='imagenes_prendas/', blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.nombre} ({self.talla}) - {self.precio}"
+class Pedido(models.Model):
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    fecha = models.DateTimeField(auto_now_add=True)
+    prendas = models.ManyToManyField(Prenda, through='ItemPedido')
+    precio_total = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"Pedido {self.id} - {self.cliente}"
+
+class ItemPedido(models.Model):
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
+    prenda = models.ForeignKey(Prenda, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField()
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.cantidad} x {self.prenda.nombre} - {self.pedido}"
