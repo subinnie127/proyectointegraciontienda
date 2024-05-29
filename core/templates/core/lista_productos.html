@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1>Lista de Productos</h1>
+<ul id="listaProductos">
+    {% for producto in productos %}
+        <li>
+            <strong>Nombre:</strong> {{ producto.nombre }}<br>
+            <strong>Categoría:</strong> {{ producto.categoria }}<br>
+            <strong>Descripción:</strong> {{ producto.descripcion }}<br>
+            <strong>Talla:</strong> {{ producto.talla }}<br>
+            <strong>Precio:</strong> {{ producto.precio }} CLP<br>
+            <strong>Stock:</strong> {{ producto.stock }}<br>
+            <strong>Disponible:</strong> {{ producto.disponible }}<br>
+            <strong>Imagen:</strong><br>
+            <img src="{{ producto.imagen }}" alt="{{ producto.nombre }}" style="width: 100px;"><br><br>
+            <a href="{% url 'editar_producto' producto.id %}">Editar</a>
+            <a href="{% url 'eliminar_producto' producto.id %}">Eliminar</a>
+            <hr>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,10 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <h1>Agregar Empleado</h1>
-    <form method="post">
+<div class="container mt-5">
+    <h1 class="mb-4">Agregar Empleado</h1>
+    <form method="post" class="needs-validation" novalidate>
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Guardar</button>
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div class="invalid-feedback">
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
+</div>
 {% endblock %}
